@@ -15,7 +15,7 @@ services:
       - POSTGRESQL_DB=${POSTGRES_DB}
       - POSTGRESQL_USER=${POSTGRES_USER}
       - POSTGRESQL_PASSWORD=${POSTGRES_PASS}
-      - TZ=Europe/Berlin
+      - TZ=${TIMEZONE}
     image: postgres:${POSTGRES_VERSION}
     restart: ${RESTART}
     volumes:
@@ -28,6 +28,8 @@ services:
     restart: ${RESTART}
     volumes:
       - elasticsearch-data:/bitnami/elasticsearch/data
+    environment:
+      - TZ=${TIMEZONE}
 
   zammad-init:
     command: ["zammad-init"]
@@ -36,6 +38,10 @@ services:
     environment:
       - MEMCACHE_SERVERS=${MEMCACHE_SERVERS}
       - REDIS_URL=${REDIS_URL}
+      - POSTGRESQL_DB=${POSTGRES_DB}
+      - POSTGRESQL_USER=${POSTGRES_USER}
+      - POSTGRESQL_PASS=${POSTGRES_PASS}
+      - TZ=${TIMEZONE}
     image: ${IMAGE_REPO}:${VERSION}
     restart: on-failure
     user: 0:0
@@ -47,6 +53,8 @@ services:
     command: memcached -m 256M
     image: memcached:${MEMCACHE_VERSION}
     restart: ${RESTART}
+    environment:
+      - TZ=${TIMEZONE}
 
   zammad-nginx:
     command: ["zammad-nginx"]
@@ -56,6 +64,8 @@ services:
       - zammad-railsserver
     image: ${IMAGE_REPO}:${VERSION}
     restart: ${RESTART}
+    environment:
+      - TZ=${TIMEZONE}
     volumes:
       - zammad-config-nginx:/etc/nginx/sites-enabled:ro
       - zammad-var:/opt/zammad/var:ro
@@ -65,6 +75,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASS}
+      - TZ=${TIMEZONE}
     image: postgres:${POSTGRES_VERSION}
     restart: ${RESTART}
     volumes:
@@ -79,6 +90,10 @@ services:
     environment:
       - MEMCACHE_SERVERS=${MEMCACHE_SERVERS}
       - REDIS_URL=${REDIS_URL}
+      - POSTGRESQL_DB=${POSTGRES_DB}
+      - POSTGRESQL_USER=${POSTGRES_USER}
+      - POSTGRESQL_PASS=${POSTGRES_PASS}
+      - TZ=${TIMEZONE}
     image: ${IMAGE_REPO}:${VERSION}
     restart: ${RESTART}
     volumes:
@@ -89,6 +104,8 @@ services:
     restart: ${RESTART}
     volumes:
       - redis-data:/data
+    environment:
+      - TZ=${TIMEZONE}
 
   zammad-scheduler:
     command: ["zammad-scheduler"]
@@ -99,6 +116,10 @@ services:
     environment:
       - MEMCACHE_SERVERS=${MEMCACHE_SERVERS}
       - REDIS_URL=${REDIS_URL}
+      - POSTGRESQL_DB=${POSTGRES_DB}
+      - POSTGRESQL_USER=${POSTGRES_USER}
+      - POSTGRESQL_PASS=${POSTGRES_PASS}
+      - TZ=${TIMEZONE}
     image: ${IMAGE_REPO}:${VERSION}
     restart: ${RESTART}
     volumes:
@@ -113,6 +134,10 @@ services:
     environment:
       - MEMCACHE_SERVERS=${MEMCACHE_SERVERS}
       - REDIS_URL=${REDIS_URL}
+      - POSTGRESQL_DB=${POSTGRES_DB}
+      - POSTGRESQL_USER=${POSTGRES_USER}
+      - POSTGRESQL_PASS=${POSTGRES_PASS}
+      - TZ=${TIMEZONE}
     image: ${IMAGE_REPO}:${VERSION}
     restart: ${RESTART}
     volumes:
